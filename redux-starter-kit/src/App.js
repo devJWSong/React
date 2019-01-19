@@ -7,13 +7,34 @@ import * as postActions from './modules/post';
 
 class App extends Component {
 
-    loadData = () => {
+    cancelRequest = null;
+
+    handleCancle = () => {
+        if (this.cancelRequest) {
+            this.cancelRequest();
+            this.cancelRequest = null;
+        }
+    }
+
+    loadData = async () => {
         const {PostActions, number} = this.props;
-        PostActions.getPost(number);
+        try {
+            const p = PostActions.getPost(number);
+            this.cancelRequest = p.cancel;
+            const response = await p;
+            console.log(response);
+        } catch(e) {
+            console.log(e);
+        }
     }
 
     componentDidMount() {
         this.loadData();
+        window.addEventListener('keyup', (e) => {
+            if (e.key === 'Escape') {
+                this.handleCancel();
+            }
+        })
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -53,8 +74,8 @@ export default connect(
     (state) => ({
         number: state.counter,
         post: state.post.data,
-        loading: state.post.pending,
-        error: state.post.error
+        loading: state.pender.pending['GET_POSt'],
+        error: state.pender.failure['GET_POST']
     }),
     (dispatch) => ({
         CounterActions: bindActionCreators(counterActions, dispatch),
