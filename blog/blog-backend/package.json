@@ -5,19 +5,22 @@
   "license": "MIT",
   "dependencies": {
     "dotenv": "^6.2.0",
+    "joi": "^14.3.1",
     "koa": "^2.6.2",
     "koa-bodyparser": "^4.2.1",
     "koa-router": "^7.4.0",
     "mongoose": "^5.4.6",
-    "nodemon": "^1.18.9"
+    "nodemon": "^1.18.9",
+    "source-map": "^0.7.3"
   },
   "devDependencies": {
+    "cross-env": "^5.2.0",
     "eslint": "^5.12.1",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.15.0"
   },
   "scripts": {
-    "start": "node src",
-    "start:dev": "nodemon --watch src/ src/index.js"
+    "start": "NOTE_PATH=src node src",
+    "start:dev": "NOTE_PATH=src nodemon --watch src/ src/index.js"
   }
 }
