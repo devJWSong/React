@@ -33,7 +33,7 @@ class MarkdownRender extends Component {
     super(props);
     const {markdown} = props;
     this.state = {
-      html: markdown ? marked(props.markdwon, {breaks: true, sanitize: true}) : ''
+      html: markdown ? marked(props.markdown, {breaks: true, sanitize: true}) : ''
     }
   }
 
