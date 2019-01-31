@@ -19,6 +19,7 @@ class EditorPane extends Component {
 
   editor = null;
   codeMirror = null;
+  cursor = null;
 
   initializeEditor = () => {
     this.codeMirror = CodeMirror(this.editor, {
@@ -27,20 +28,61 @@ class EditorPane extends Component {
       lineNumbers: true,
       lineWrapping: true
     });
+    this.codeMirror.on('change', this.handleChangeMarkdown);
   }
 
   componentDidMount() {
     this.initializeEditor();
   }
 
+  handleChange = (e) => {
+    const {onChangeInput} = this.props;
+    const {value, name} = e.target;
+    onChangeInput({name, value});
+  }
+
+  handleChangeMarkdown = (doc) => {
+    const {onChangeInput} = this.props;
+    this.cursor = doc.getCursor();
+    onChangeInput({
+      name: 'markdown',
+      value: doc.getValue()
+    });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps !== this.props.markdown) {
+      const {codeMirror, cursor} = this;
+      if (!codeMirror) return;
+      codeMirror.setValue(this.props.markdown);
+      if (!cursor) return;
+      codeMirror.setCursor(cursor);
+    }
+  }
+
   render() {
+
+    const {handleChange} = this;
+    const {tags, title} = this.props;
+
     return (
       <div className={cx('editor-pane')}>
-        <input className={cx('title')} placeholder="Type the title"/>
+        <input 
+          className={cx('title')} 
+          placeholder="Type the title"
+          name='title'
+          value={title}
+          onChange={handleChange}
+          />
         <div className={cx('code-editor')} ref={ref => this.editor=ref}></div>
         <div className={cx('tags')}>
           <div className={cx('description')}>Tags</div>
-          <input name="tags" placeholder="Type tags (separate by comma)"/>
+          <input 
+            name="tags" 
+            placeholder="Type tags (separate by comma)"
+            value={tags}
+            onChange={handleChange}
+            />
         </div>
       </div>
     );
