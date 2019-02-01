@@ -19,7 +19,7 @@ class ListContainer extends Component {
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevProps !== this.props.page || prevProps.tag !== this.props.tag) {
+        if (prevProps.page !== this.props.page || prevProps.tag !== this.props.tag) {
             this.getPostList();
             document.documentElement.scrollTop = 0;
         }
