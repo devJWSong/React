@@ -1,2 +1,2 @@
-# React.js
+# react.js
 Practice for React
