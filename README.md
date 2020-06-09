@@ -1,2 +1,2 @@
-# react.js
-Practice for React
+# react-js-study
+Practice for React.js
