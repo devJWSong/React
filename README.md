@@ -1,2 +1,2 @@
 # react-js-study
-React.js practice.
+These are practical codes for React.js study.
